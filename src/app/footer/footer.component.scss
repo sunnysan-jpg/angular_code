@@ -1,0 +1,29 @@
+footer {
+  background-color: #000; /* Single-layer black background */
+  color: #fff;
+}
+
+/* Footer Links */
+.footer-link {
+  color: #dcdcdc;
+  text-decoration: none;
+  padding: 0 4px;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Icons */
+.footer-icon .icon {
+  font-size: 1.5rem;
+  color: #dcdcdc;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.footer-icon .icon:hover {
+  color: #25d366; /* WhatsApp green */
+}

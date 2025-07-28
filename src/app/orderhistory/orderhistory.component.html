@@ -1,0 +1,238 @@
+    <div class="order-history-container">
+      <!-- Header -->
+      <div class="header">
+        <h1>📦 My Order History</h1>
+        <div class="order-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ orders.length }}</span>
+            <span class="stat-label">Total Orders</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">₹{{ getTotalSpent() }}</span>
+            <span class="stat-label">Total Spent</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <div class="filter-group">
+          <label>Filter by Status:</label>
+          <select [(ngModel)]="statusFilter" (change)="filterOrders()" class="filter-select">
+            <option value="">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Date Range:</label>
+          <select [(ngModel)]="dateFilter" (change)="filterOrders()" class="filter-select">
+            <option value="">All Time</option>
+            <option value="30">Last 30 Days</option>
+            <option value="90">Last 3 Months</option>
+            <option value="365">Last Year</option>
+          </select>
+        </div>
+        
+        <div class="search-group">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="filterOrders()"
+            placeholder="Search by order ID or product name..."
+            class="search-input"
+          />
+        </div>
+      </div>
+
+      <!-- Orders List -->
+      <div class="orders-list" *ngIf="filteredOrders.length > 0">
+        <div *ngFor="let order of filteredOrders" class="order-card">
+          <div class="order-header">
+            <div class="order-id">
+              <h3>Order #{{ order.id }}</h3>
+              <span class="order-date">{{ order.orderDate | date:'medium' }}</span>
+            </div>
+            <div class="order-status">
+              <span class="status-badge" [class]="'status-' + order.status">
+                {{ getStatusText(order.status) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="order-body">
+            <div class="order-items">
+              <div *ngFor="let item of order.items" class="order-item">
+                <img [src]="item.imageUrls[0]" [alt]="item.product_name" class="item-image">
+                <div class="item-details">
+                  <h4>{{ item.product_name }}</h4>
+                  <p class="item-type">{{ item.mushroomType }} • {{ item.weight }}</p>
+                  <p class="item-quantity">Qty: {{ item.quantity }}</p>
+                </div>
+                <div class="item-price">
+                  <span class="price">₹{{ item.price }}</span>
+                  <span class="subtotal">₹{{ item.quantity * item.price }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-summary">
+              <div class="summary-row">
+                <span>Total Amount:</span>
+                <span class="total-amount">₹{{ order.total_amount }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Payment Method:</span>
+                <span>{{ order.paymentMethod }}</span>
+              </div>
+              <div class="summary-row" *ngIf="order.trackingNumber">
+                <span>Tracking Number:</span>
+                <span class="tracking-number">{{ order.trackingNumber }}</span>
+              </div>
+              <div class="summary-row" *ngIf="order.estimatedDelivery && order.status !== 'delivered'">
+                <span>Estimated Delivery:</span>
+                <span>{{ order.estimatedDelivery | date:'mediumDate' }}</span>
+              </div>
+              <div class="summary-row" *ngIf="order.deliveredDate">
+                <span>Delivered On:</span>
+                <span>{{ order.deliveredDate | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-actions">
+            <button class="btn btn-primary" (click)="viewOrderDetails(order)">
+              View Details
+            </button>
+            <button 
+              class="btn btn-secondary" 
+              (click)="trackOrder(order)"
+              *ngIf="order.trackingNumber && order.status !== 'delivered'"
+            >
+              Track Order
+            </button>
+            <button 
+              class="btn btn-success" 
+              (click)="reorderItems(order)"
+              *ngIf="order.status === 'delivered'"
+            >
+              Reorder
+            </button>
+            <button 
+              class="btn btn-warning" 
+              (click)="cancelOrder(order)"
+              *ngIf="order.status === 'pending' || order.status === 'processing'"
+            >
+              Cancel Order
+            </button>
+            <button class="btn btn-info" (click)="downloadInvoice(order)">
+              Download Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredOrders.length === 0">
+        <div class="empty-icon">📦</div>
+        <h2>No Orders Found</h2>
+        <p *ngIf="orders.length === 0">You haven't placed any orders yet.</p>
+        <p *ngIf="orders.length > 0">No orders match your current filters.</p>
+        <button class="btn btn-primary" (click)="goToShop()">
+          Start Shopping
+        </button>
+      </div>
+
+      <!-- Order Details Modal -->
+      <div class="modal" *ngIf="selectedOrder" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Order Details #{{ selectedOrder.id }}</h2>
+            <button class="close-btn" (click)="closeModal()">×</button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="order-timeline">
+              <h3>Order Status</h3>
+              <div class="timeline">
+                <div class="timeline-item" [class.active]="isStatusActive('pending')">
+                  <div class="timeline-icon">📝</div>
+                  <div class="timeline-content">
+                    <h4>Order Placed</h4>
+                    <p>{{ selectedOrder.orderDate | date:'medium' }}</p>
+                  </div>
+                </div>
+                <div class="timeline-item" [class.active]="isStatusActive('processing')">
+                  <div class="timeline-icon">⚙️</div>
+                  <div class="timeline-content">
+                    <h4>Processing</h4>
+                    <p>Your order is being prepared</p>
+                  </div>
+                </div>
+                <div class="timeline-item" [class.active]="isStatusActive('shipped')">
+                  <div class="timeline-icon">🚚</div>
+                  <div class="timeline-content">
+                    <h4>Shipped</h4>
+                    <p *ngIf="selectedOrder.trackingNumber">Tracking: {{ selectedOrder.trackingNumber }}</p>
+                  </div>
+                </div>
+                <div class="timeline-item" [class.active]="isStatusActive('delivered')">
+                  <div class="timeline-icon">✅</div>
+                  <div class="timeline-content">
+                    <h4>Delivered</h4>
+                    <p *ngIf="selectedOrder.deliveredDate">{{ selectedOrder.deliveredDate | date:'medium' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-info">
+              <h3>Order Information</h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <label>Order ID:</label>
+                  <span>{{ selectedOrder.id }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Order Date:</label>
+                  <span>{{ selectedOrder.orderDate | date:'full' }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Payment Method:</label>
+                  <span>{{ selectedOrder.paymentMethod }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Total Amount:</label>
+                  <span class="amount">₹{{ selectedOrder.
+total_amount }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="shipping-info">
+              <h3>Shipping Address</h3>
+              <p>{{ selectedOrder.shipping_address }}</p>
+            </div>
+
+            <div class="items-info">
+              <h3>Items Ordered</h3>
+              <div class="modal-items">
+                <div *ngFor="let item of selectedOrder.items" class="modal-item">
+                  <img [src]="item.imageUrls[0]" [alt]="item.productName" class="modal-item-image">
+                  <div class="modal-item-details">
+                    <h4>{{ item.product_name }}</h4>
+                    <p>{{ item.mushroomType }} • {{ item.weight }}</p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p class="item-total">₹{{ item.quantity * item.price }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

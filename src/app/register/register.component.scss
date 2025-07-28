@@ -1,0 +1,26 @@
+.auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      padding: 20px;
+    }
+    
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .full-width {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    mat-card-actions {
+      text-align: center;
+    }
+    
+    a {
+      color: #3f51b5;
+      text-decoration: none;
+    }

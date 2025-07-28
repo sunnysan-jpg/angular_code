@@ -1,0 +1,46 @@
+    <div class="container">
+      <div class="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Search products</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (keyup)="onSearch()" placeholder="Search mushrooms...">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+            <mat-option value="">All Categories</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.name">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="products-grid">
+        <mat-card *ngFor="let product of products" class="product-card">
+          <img mat-card-image [src]="product.image_url[0]" [alt]="product.name" class="product-image">
+          <mat-card-content>
+            <h3>{{ product.name }}</h3>
+            <p class="description">{{ product.description }}</p>
+            <p class="price">₹{{ product.price }}</p>
+            <p class="stock" [class.out-of-stock]="product.stock_quantity === 0">
+              {{ product.stock_quantity > 0 ? 'In Stock: ' + product.stock_quantity : 'Out of Stock' }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button [routerLink]="['/products', product.id]">View Details</button>
+            <button mat-raised-button color="primary" 
+                    (click)="addToCart(product)" 
+                    [disabled]="!isAuthenticated || product.stock_quantity === 0">
+              Add to Cart
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div *ngIf="products.length === 0" class="no-products">
+        <h2>No products found</h2>
+        <p>Try adjusting your search or filter criteria.</p>
+      </div>
+    </div>

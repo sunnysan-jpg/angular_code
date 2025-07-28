@@ -1,0 +1,146 @@
+
+    <div class="container my-5">
+      <h2>Checkout</h2>
+      
+       <div class="row">
+        <div class="col-md-8">
+          <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5>Shipping Information</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" id="firstName" class="form-control" formControlName="firstName">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" formControlName="lastName">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" id="address" class="form-control" formControlName="address">
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" id="city" class="form-control" formControlName="city">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="state" class="form-label">State</label>
+                    <input type="text" id="state" class="form-control" formControlName="state">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="zipCode" class="form-label">ZIP Code</label>
+                    <input type="text" id="zipCode" class="form-control" formControlName="zipCode">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          <div class="card mb-4">
+  <div class="card-header">
+    <h5>Payment Information</h5>
+  </div>
+  <div class="card-body">
+
+    <!-- Payment Method Selection -->
+    <div class="mb-3">
+      <label class="form-label">Select Payment Method</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input"
+               type="radio"
+               id="card"
+               value="card"
+               formControlName="paymentMethod">
+        <label class="form-check-label" for="card">Credit/Debit Card</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input"
+               type="radio"
+               id="upi"
+               value="upi"
+               formControlName="paymentMethod">
+        <label class="form-check-label" for="upi">UPI</label>
+      </div>
+    </div>
+
+    <!-- Card Fields (Only show if card is selected) -->
+    <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'card'">
+      <div class="mb-3">
+        <label for="cardNumber" class="form-label">Card Number</label>
+        <input type="text" id="cardNumber" class="form-control" formControlName="cardNumber"
+               placeholder="1234 5678 9012 3456">
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="expiryDate" class="form-label">Expiry Date</label>
+          <input type="text" id="expiryDate" class="form-control" formControlName="expiryDate"
+                 placeholder="MM/YY">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="cvv" class="form-label">CVV</label>
+          <input type="text" id="cvv" class="form-control" formControlName="cvv"
+                 placeholder="123">
+        </div>
+      </div>
+    </div>
+
+    <!-- UPI Field (Only show if upi is selected) -->
+    <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'upi'">
+      <div class="mb-3">
+        <label for="upiId" class="form-label">UPI ID</label>
+        <input type="text" id="upiId" class="form-control" formControlName="upiId"
+               placeholder="example@upi">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+            
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="checkoutForm.invalid || loading">
+                {{loading ? 'Processing...' : 'Place Order'}}
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h5>Order Summary</h5>
+            </div>
+            <div class="card-body">
+              <div *ngFor="let item of cartItems" class="d-flex justify-content-between mb-2">
+                <span>{{item.name}} ({{item.quantity}})</span>
+                <span>\${{(item.price * item.quantity).toFixed(2)}}</span>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal:</span>
+                <span>\${{getSubtotal().toFixed(2)}}</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Shipping:</span>
+                <span>\$5.00</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Tax:</span>
+                <span>\${{getTax().toFixed(2)}}</span>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between">
+                <strong>Total:</strong>
+                <strong>\${{getTotal().toFixed(2)}}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
