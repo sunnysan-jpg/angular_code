@@ -1,16 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-orderhistory',
-//   templateUrl: './orderhistory.component.html',
-//   styleUrls: ['./orderhistory.component.scss']
-// })
-// export class OrderhistoryComponent {
-
-// }
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
