@@ -1,3 +1,7 @@
+[build]
+  command = "ng build --prod"
+  publish = "dist/mushroom-front"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
