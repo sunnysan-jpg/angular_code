@@ -19,7 +19,7 @@ import { Order } from '../models/order.model';
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:3000/api/orders';
+  private apiUrl = 'https://ecommerce-mushroom.onrender.com/api/orders';
 
   constructor(private http: HttpClient) {}
 

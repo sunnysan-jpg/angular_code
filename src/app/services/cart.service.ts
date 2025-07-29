@@ -21,7 +21,7 @@ import { Cartitem } from '../models/carditem.model';
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'http://localhost:3000/api/cart';
+  private apiUrl = 'https://ecommerce-mushroom.onrender.com/api/cart';
   private cartItemsSubject = new BehaviorSubject<Cartitem[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
 

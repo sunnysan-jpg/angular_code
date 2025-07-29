@@ -21,7 +21,7 @@ import { Category } from '../models/category.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:3000/api/products';
+  private apiUrl = 'https://ecommerce-mushroom.onrender.com/api/products';
 
   constructor(private http: HttpClient) {}
 
