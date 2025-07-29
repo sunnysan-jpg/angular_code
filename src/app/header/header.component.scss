@@ -1,27 +1,28 @@
- .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .nav-icons {
+    display: flex;
+    gap: 4px; // Small gap between icons
+
+    @media (max-width: 600px) {
+      gap: 0px; // Less gap for mobile
     }
-    
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
+
+    button {
+      color: white;
     }
-    
-    .nav-links {
-      display: flex;
-      gap: 16px;
-    }
-    
-    .user-menu {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
+  }
+}

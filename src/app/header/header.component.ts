@@ -1,16 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-header',
-//   templateUrl: './header.component.html',
-//   styleUrls: ['./header.component.scss']
-// })
-// export class HeaderComponent {
-
-// }
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
@@ -47,6 +34,8 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/products']);
   }
+
+
 
     googleLogin() {
     this.authService.loginWithGoogle();
