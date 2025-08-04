@@ -19,6 +19,9 @@ export class PaymentService {
   return this.http.post(`${this.apiUrl}/create`, data);
 }
 
+  verifyPayment(data: any) {
+    return this.http.post(`${this.apiUrl}/verify-payment`, data);
+  }
 
 
 }
