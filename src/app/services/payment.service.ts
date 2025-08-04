@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PaymentService {
 
-    private apiUrl = 'http://localhost:3000/api/payment';
+    private apiUrl = 'https://ecommerce-mushroom.onrender.com/api/payment';
   
   
     constructor(private http: HttpClient,private router:Router) {
