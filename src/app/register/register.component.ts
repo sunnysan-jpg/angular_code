@@ -46,4 +46,9 @@ export class RegisterComponent {
       );
     }
   }
+
+
+      googleLogin() {
+    this.authService.loginWithGoogle();
+  }
 }
