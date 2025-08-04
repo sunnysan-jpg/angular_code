@@ -58,6 +58,11 @@
         </mat-card-content>
         <mat-card-actions>
           <p>Already have an account? <a routerLink="/login">Login here</a></p>
+          <p><!-- Google Login Button -->
+<button class="matbtn" mat-icon-button (click)="googleLogin()" matTooltip="Login with Google">
+  <i class="fab fa-google"></i>
+</button>
+</p>
         </mat-card-actions>
       </mat-card>
     </div>

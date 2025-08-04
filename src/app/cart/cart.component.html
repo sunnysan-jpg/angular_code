@@ -24,7 +24,7 @@
                     <p class="text-muted">{{item?.description}}</p>
                   </div>
                   <div class="col-md-2">
-                    <h6>\${{item?.price}}</h6>
+                    <h6> ₹ {{item?.price}}</h6>
                   </div>
                 <div class="col-md-2">
   <div class="input-group">
@@ -58,7 +58,7 @@
 
                   <div class="col-md-2">
                     <div class="d-flex justify-content-between align-items-center">
-                      <strong>${{item?.total}}</strong>
+                      <strong>₹{{item?.total}}</strong>
                       <button class="btn btn-outline-danger btn-sm" (click)="removeItem(item)">
                         <i class="fas fa-trash"></i>
                       </button>
@@ -77,20 +77,20 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between mb-2">
                   <span>Subtotal:</span>
-                  <span>\${{getSubtotal().toFixed(2)}}</span>
+                  <span>₹{{getSubtotal().toFixed(2)}}</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                   <span>Shipping:</span>
-                  <span>\$5.00</span>
+                  <span>₹5.00</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                   <span>Tax:</span>
-                  <span>\${{getTax().toFixed(2)}}</span>
+                  <span>₹{{getTax().toFixed(2)}}</span>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between mb-3">
                   <strong>Total:</strong>
-                  <strong>\${{getTotal().toFixed(2)}}</strong>
+                  <strong>₹{{getTotal().toFixed(2)}}</strong>
                 </div>
                 <div class="d-grid gap-2">
                   <button class="btn btn-primary" (click)="proceedToCheckout()">
