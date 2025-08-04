@@ -20,7 +20,7 @@ import { OrderService } from '../services/order.service';
 import { PaymentService } from '../services/payment.service';
 
 interface PaymentDetails {
-  method: 'card' | 'upi';
+  method: 'card' | 'upi' | 'cod'; // 🔁 add cod
   cardNumber?: string;
   expiryDate?: string;
   cvv?: string;
@@ -29,6 +29,7 @@ interface PaymentDetails {
   razorpay_order_id?: string;
   razorpay_signature?: string;
 }
+
 
 interface OrderItem {
   product_id: number;
@@ -97,7 +98,7 @@ this.checkoutForm = this.fb.group({
       error => console.error('Error loading cart:', error)
     );
   }
-
+/// seperate
 
 onSubmit(): void {
   if (!this.checkoutForm.valid) return;
@@ -109,32 +110,47 @@ onSubmit(): void {
   const paymentMethod = formData.paymentMethod;
   const amountInPaise = Math.round(this.getTotal() * 100); // Razorpay needs amount in paise
 
-  // Prepare common orderData (but submit only after successful payment)
   const orderData: OrderData = {
-  total_amount: this.getTotal(),
-  shipping_address: shippingAddress,
-  payment: {} as PaymentDetails, // ✅ Type cast empty object
-  items: this.cartItems.map(item => ({
-    product_id: item.product_id,
-    quantity: item.quantity,
-    price: item.price
-  }))
-};
+    total_amount: this.getTotal(),
+    shipping_address: shippingAddress,
+    payment: {} as PaymentDetails,
+    items: this.cartItems.map(item => ({
+      product_id: item.product_id,
+      quantity: item.quantity,
+      price: item.price
+    }))
+  };
 
+  // ✅ CASE 1: COD
+  if (paymentMethod === 'cod') {
+    orderData.payment = { method: 'cod' };
+    this.submitOrder(orderData);
+    return;
+  }
 
-  // Step 1: UPI Payment (Razorpay Popup)
+  // ✅ CASE 2: CARD
+  if (paymentMethod === 'card') {
+    orderData.payment = {
+      method: 'card',
+      cardNumber: formData.cardNumber,
+      expiryDate: formData.expiryDate,
+      cvv: formData.cvv
+    };
+    this.submitOrder(orderData);
+    return;
+  }
+
+  // ✅ CASE 3: UPI via Razorpay
   if (paymentMethod === 'upi') {
     this.paymentService.createRazorpayOrder({ amount: amountInPaise }).subscribe((res: any) => {
-      console.log("sunn",res)
       const options = {
-        key: 'rzp_test_0O3CVYn3hWnPd1', // 🛑 Use your Razorpay test key
+        key: 'rzp_test_0O3CVYn3hWnPd1',
         amount: res.amount,
         currency: 'INR',
         name: 'Mushroom Store',
         description: 'Order Payment',
         order_id: res.id,
         handler: (response: any) => {
-          // Razorpay sends payment ID after success
           orderData.payment = {
             method: 'upi',
             upiId: formData.upiId,
@@ -142,13 +158,11 @@ onSubmit(): void {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_signature: response.razorpay_signature
           };
-
-          // Step 2: Submit Order to Backend
           this.submitOrder(orderData);
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
-          email: '03sunnyyadav@gmail.com', // Optional: Replace if available
+          email: '03sunnyyadav@gmail.com',
           contact: '+91 7039683801'
         },
         method: {
@@ -168,21 +182,10 @@ onSubmit(): void {
       });
     });
 
-    return; // ⛔ Don't continue execution below
-  }
-
-  // Card Payment logic
-  if (paymentMethod === 'card') {
-    orderData.payment = {
-      method: 'card',
-      cardNumber: formData.cardNumber,
-      expiryDate: formData.expiryDate,
-      cvv: formData.cvv
-    };
-
-    this.submitOrder(orderData); // Directly place order
+    return;
   }
 }
+
 
 // ✅ Separate method to submit order after payment success
 submitOrder(orderData: any): void {

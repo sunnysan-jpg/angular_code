@@ -67,6 +67,17 @@
                formControlName="paymentMethod">
         <label class="form-check-label" for="upi">UPI</label>
       </div>
+
+      <!-- Add one more radio option for COD -->
+<div class="form-check form-check-inline">
+  <input class="form-check-input"
+         type="radio"
+         id="cod"
+         value="cod"
+         formControlName="paymentMethod">
+  <label class="form-check-label" for="cod">Cash on Delivery</label>
+</div>
+
     </div>
 
     <!-- Card Fields (Only show if card is selected) -->
@@ -98,6 +109,14 @@
                placeholder="example@upi">
       </div>
     </div>
+
+    <!-- COD Notice -->
+<div *ngIf="checkoutForm.get('paymentMethod')?.value === 'cod'">
+  <div class="alert alert-success">
+    You have selected <strong>Cash on Delivery</strong>. Pay when the product arrives.
+  </div>
+</div>
+
 
   </div>
 </div>
