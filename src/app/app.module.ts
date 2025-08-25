@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -63,6 +63,7 @@ import { OrderhistoryComponent } from './orderhistory/orderhistory.component';
 import { GoogleauthsuccessComponent } from './googleauthsuccess/googleauthsuccess.component';
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,13 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MatSelectModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
         {
