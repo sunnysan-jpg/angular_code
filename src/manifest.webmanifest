@@ -19,18 +19,19 @@
       "type": "image/png"
     }
   ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/home-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },  
-    {
-      "src": "assets/screenshots/home-narrow.png",
-      "sizes": "720x1280",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+"screenshots": [
+  {
+    "src": "assets/screenshots/home-wide.png",
+    "sizes": "1024x1536",
+    "type": "image/png",
+    "form_factor": "wide"
+  },
+  {
+    "src": "assets/screenshots/home-narrow.png",
+    "sizes": "1024x1536",
+    "type": "image/png",
+    "form_factor": "narrow"
+  }
+]
+
 }
