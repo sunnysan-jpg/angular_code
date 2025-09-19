@@ -63,6 +63,9 @@ import { OrderhistoryComponent } from './orderhistory/orderhistory.component';
 import { GoogleauthsuccessComponent } from './googleauthsuccess/googleauthsuccess.component';
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { AboutUsComponent } from './footer-about/about-us/about-us.component';
+import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
+import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +86,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
     OrderhistoryComponent,
     GoogleauthsuccessComponent,
     SpinnerComponent,
+    AboutUsComponent,
+    PrivacyPolicyComponent,
+    ContactDetailComponent,
     // RegisterComponent,
     // AdminDashboardComponent,
     // OrdersComponent
