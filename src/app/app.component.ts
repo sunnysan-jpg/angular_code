@@ -14,7 +14,7 @@ import { CartService } from './services/cart.service';
   `,
   styles: [`
     .main-content {
-      padding-top: 80px;
+      padding-top: 7px;
       min-height: calc(100vh - 80px);
     }
   `]

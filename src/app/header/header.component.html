@@ -1,9 +1,9 @@
-
 <div class="announcement-bar" role="status" aria-live="polite">
   <span class="announcement-text">
     Dear Customers, to place your order, make sure your cart totals ₹300 or more!
   </span>
 </div>
+
 <mat-toolbar color="primary" class="header">
   <span class="logo" routerLink="/">🍄 Mushroom </span>
 
@@ -49,4 +49,41 @@
       </mat-menu>
     </ng-container>
   </div>
+
+      <div class="mobile-only" style="padding-bottom: 10px;">
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Open menu">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
 </mat-toolbar>
+
+
+<mat-menu #mobileMenu="matMenu">
+  <button mat-menu-item routerLink="/products">
+    <i class="fas fa-store"></i><span>Products</span>
+  </button>
+
+  <ng-container *ngIf="!currentUser">
+    <button mat-menu-item routerLink="/wishlist">
+      <i class="fas fa-heart"></i><span>Wishlist</span>
+    </button>
+    <button mat-menu-item routerLink="/login">
+      <i class="fas fa-user"></i><span>Login</span>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="currentUser">
+    <button mat-menu-item routerLink="/cart">
+      <i class="fas fa-shopping-cart"></i><span>Cart</span>
+    </button>
+    <button mat-menu-item routerLink="/orders">
+      <i class="fas fa-receipt"></i><span>Orders</span>
+    </button>
+    <button mat-menu-item routerLink="/profile">
+      <i class="fas fa-id-card"></i><span>Profile</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+    </button>
+  </ng-container>
+</mat-menu>
