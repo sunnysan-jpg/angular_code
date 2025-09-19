@@ -64,6 +64,9 @@ import { GoogleauthsuccessComponent } from './googleauthsuccess/googleauthsucces
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AboutUsComponent } from './footer-about/about-us/about-us.component';
+import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
+import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +87,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     OrderhistoryComponent,
     GoogleauthsuccessComponent,
     SpinnerComponent,
+    AboutUsComponent,
+    PrivacyPolicyComponent,
+    ContactDetailComponent,
     // RegisterComponent,
     // AdminDashboardComponent,
     // OrdersComponent

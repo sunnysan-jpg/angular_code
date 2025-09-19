@@ -3,12 +3,29 @@ footer {
   color: #fff;
 }
 
+.to-top:hover { transform: translateY(-3px); background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.25); }
+
+
 /* Footer Links */
 .footer-link {
   color: #dcdcdc;
   text-decoration: none;
   padding: 0 4px;
   transition: color 0.3s ease;
+}
+
+.to-top {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: #fff; text-decoration: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.bottom-row {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-top: 20px;
 }
 
 .footer-link:hover {
@@ -27,3 +44,44 @@ footer {
 .footer-icon .icon:hover {
   color: #25d366; /* WhatsApp green */
 }
+
+
+
+.icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  color: #dcdcdc;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform .2s ease, filter .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  will-change: transform, filter;
+}
+
+
+.social { display: flex; gap: 14px; margin-top: 14px;justify-content: center;}
+.icon i { font-size: 20px; }
+
+/* WhatsApp hover */
+.icon.whats:hover {
+  color: #fff;
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.35);
+  transform: translateY(-3px);
+  filter: drop-shadow(0 6px 12px rgba(37,211,102,0.25));
+}
+
+/* Instagram gradient text on hover */
+.icon.insta:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+  filter: drop-shadow(0 6px 12px rgba(131,58,180,0.3));
+}
+.icon.insta:hover i {
+  background: linear-gradient(45deg, var(--insta-2), var(--insta-1), #fcb045);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
