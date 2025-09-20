@@ -10,6 +10,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { OrderhistoryComponent } from './orderhistory/orderhistory.component';
 import { GoogleauthsuccessComponent } from './googleauthsuccess/googleauthsuccess.component';
 import { AboutUsComponent } from './footer-about/about-us/about-us.component';
+import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
+import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
    { path: 'google-auth-success', component: GoogleauthsuccessComponent },
@@ -22,7 +24,9 @@ const routes: Routes = [
   {path: 'checkout',component: CheckoutComponent,canActivate: [AuthGuard]},
   {path: 'orders',component: OrderhistoryComponent,canActivate: [AuthGuard]},
   /// 
-  {path: 'about-us',component: AboutUsComponent}
+  {path: 'about-us',component: AboutUsComponent},
+  {path: 'contact-us', component: ContactDetailComponent},
+  {path: 'privacy-policy',component: PrivacyPolicyComponent}
 ];
 
 @NgModule({

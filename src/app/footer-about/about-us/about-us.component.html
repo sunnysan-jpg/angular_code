@@ -1,13 +1,45 @@
-<!-- pages/about/about.component.html -->
-<section class="container">
-  <h1>About Us</h1>
-  <p>We’re a Bangalore-based mushroom brand focused on fresh Oyster (and seasonal Shiitake & Button) grown with clean substrates and cold-chain delivery.</p>
-  <h2>What we grow</h2>
-  <ul>
-    <li>Oyster (daily harvest)</li>
-    <li>Seasonal Shiitake (preorder)</li>
-    <li>Value-add: dried chips & pickles</li>
-  </ul>
-  <h2>Our promise</h2>
-  <p>Farm-to-table freshness, transparent sourcing, and sustainable packaging.</p>
+<section class="about container">
+  <div class="about-grid">
+    <!-- copy -->
+    <div class="about-copy">
+      <h1>About Us</h1>
+      <p>We’re a Bangalore & Pune based mushroom brand focused on fresh Oyster (and seasonal Shiitake & Button) grown with clean substrates and cold-chain delivery.</p>
+
+      <h2>What we grow</h2>
+      <ul>
+        <li>Oyster (daily harvest)</li>
+        <li>Seasonal Shiitake (preorder)</li>
+        <li>Value-add: dried chips & pickles</li>
+      </ul>
+
+      <h2>Our promise</h2>
+      <p>Farm-to-table freshness, transparent sourcing, and sustainable packaging.</p>
+    </div>
+
+    <!-- hero image -->
+    <figure class="about-media">
+      <picture>
+        <!-- optional WebP for smaller size -->
+        <source type="image/jpg"
+                srcset="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1758271916/mushroom-products/qbyqsbf7otrrh1m1wkkd.jpg 800w,https://res.cloudinary.com/dkbc3dfyf/image/upload/v1758271916/mushroom-products/qbyqsbf7otrrh1m1wkkd.jpg 1200w"
+                sizes="(max-width: 900px) 100vw, 480px" />
+        <img
+          src="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1758271916/mushroom-products/qbyqsbf7otrrh1m1wkkd.jpg"
+          srcset="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1758271916/mushroom-products/qbyqsbf7otrrh1m1wkkd.jpg 800w, https://res.cloudinary.com/dkbc3dfyf/image/upload/v1758271916/mushroom-products/qbyqsbf7otrrh1m1wkkd.jpg 1200w"
+          sizes="(max-width: 900px) 100vw, 480px"
+          alt="Fresh oyster mushrooms harvested at our Bangalore farm"
+          loading="lazy"
+          decoding="async"
+          width="1200" height="900" />
+      </picture>
+      <figcaption>Today’s oyster harvest, packed within hours.</figcaption>
+    </figure>
+  </div>
+
+  <!-- optional mini gallery -->
+  <div class="about-gallery">
+    <img src="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1752938749/samples/landscapes/nature-mountains.jpg" alt="Sterilized substrate bags" loading="lazy" width="800" height="600" />
+    <img src="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1752938747/samples/food/fish-vegetables.jpg"  alt="Fruiting blocks in controlled room" loading="lazy" width="800" height="600" />
+    <img src="https://res.cloudinary.com/dkbc3dfyf/image/upload/v1752938747/samples/people/kitchen-bar.jpg"      alt="Eco-friendly packaging" loading="lazy" width="800" height="600" />
+  </div>
 </section>

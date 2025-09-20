@@ -1,0 +1,110 @@
+<section class="contact-page container">
+  <h1 class="title">CONTACT US</h1>
+
+  <div class="grid">
+    <!-- Left: form -->
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card form-card">
+      <label>
+        <span>Name</span>
+        <input type="text" formControlName="name" placeholder="Your name" />
+        <small *ngIf="form.controls.name.touched && form.controls.name.invalid">Please enter your name.</small>
+      </label>
+
+      <label>
+        <span>Email *</span>
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+        <small *ngIf="form.controls.email.touched && form.controls.email.invalid">Valid email required.</small>
+      </label>
+
+      <label>
+        <span>Phone number</span>
+        <input type="tel" formControlName="phone" placeholder="+91 XXXXX XXXXX" />
+      </label>
+
+      <label>
+        <span>Comment</span>
+        <textarea rows="5" formControlName="message" placeholder="How can we help?"></textarea>
+        <small *ngIf="form.controls.message.touched && form.controls.message.invalid">
+          10–2000 characters please.
+        </small>
+      </label>
+
+      <button class="btn" [disabled]="sending">
+        <i class="fas fa-paper-plane"></i>
+        <span>{{ sending ? 'Sending…' : 'Send' }}</span>
+      </button>
+
+      <p class="ok" *ngIf="success">{{ success }}</p>
+      <p class="err" *ngIf="error">{{ error }}</p>
+    </form>
+
+    <!-- Right: addresses -->
+    <aside class="card side">
+      <div class="block">
+        <h3>OFFICE ADDRESS</h3>
+        <p><i class="fas fa-location-dot"></i> {{ officeAddress }}</p>
+        <p><i class="fas fa-phone"></i> <a [href]="telHref()">{{ phone }}</a></p>
+        <p><i class="fas fa-envelope"></i> <a [href]="mailHref()">{{ email }}</a></p>
+      </div>
+
+      <hr />
+
+      <div class="block">
+        <h3>REGISTERED ADDRESS</h3>
+        <p><i class="fas fa-location-dot"></i> {{ registeredAddress }}</p>
+        <p><i class="fas fa-phone"></i> <a [href]="telHref()">{{ phone }}</a></p>
+        <p><i class="fas fa-envelope"></i> <a [href]="mailHref()">{{ email }}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- Big CTA band like the screenshot -->
+<section class="cta-band">
+  <div class="cta-inner container">
+    <h2>WANT TO CONNECT?</h2>
+    <p class="sub">CALL US, OR JUST POP OUR NOTIFICATION UP ON WHATSAPP OR EMAIL.</p>
+
+    <div class="cta-row">
+      <a class="cta" [href]="telHref()">
+        <i class="fas fa-phone"></i>
+        <span>{{ phone }}</span>
+      </a>
+      <a class="cta" [href]="mailHref()">
+        <i class="fas fa-envelope"></i>
+        <span>{{ email | uppercase }}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Optional map (replace q= with your address) -->
+<section class="map container">
+  <h3>View on Map</h3>
+
+  <div class="map-actions">
+    <button class="btn locate" (click)="useMyLocation()" [disabled]="locating">
+      <i class="fas fa-location-crosshairs"></i>
+      {{ locating ? 'Detecting…' : 'Use my current location' }}
+    </button>
+
+    <button class="btn outline" type="button" (click)="resetToOffice()">
+      <i class="fas fa-building"></i> Show office
+    </button>
+
+    <a class="btn outline" [href]="externalMapHref" target="_blank" rel="noopener">
+      <i class="fas fa-map"></i> Open in Google Maps
+    </a>
+  </div>
+
+  <div class="map-wrap">
+    <iframe
+      [src]="mapSrc"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      style="border:0;"
+      allowfullscreen
+    ></iframe>
+  </div>
+</section>
+
