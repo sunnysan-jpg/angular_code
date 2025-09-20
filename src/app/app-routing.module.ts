@@ -26,9 +26,9 @@ const routes: Routes = [
   /// 
   {path: 'about-us',component: AboutUsComponent},
   {path: 'contact-us', component: ContactDetailComponent},
-  {path: 'privacy-policy',component: PrivacyPolicyComponent}
-];
-
+  {path: 'privacy-policy',component: PrivacyPolicyComponent }
+];  
+    
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
