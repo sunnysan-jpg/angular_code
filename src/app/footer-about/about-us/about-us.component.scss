@@ -1,5 +1,52 @@
-/* pages/about/about.component.scss */
-.container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-h1 { font-size: 2rem; margin-bottom: 12px; }
-h2 { margin-top: 20px; font-size: 1.25rem; }
-ul { padding-left: 18px; }
+/* keep your existing container/h1/h2/ul rules */
+
+.about.container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr; /* text : image */
+  gap: 24px;
+  align-items: start;
+}
+
+.about-media {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  background: #111;
+
+  picture, img { display: block; width: 100%; height: auto; }
+  /* keep a nice frame even before image loads */
+  img { aspect-ratio: 4 / 3; object-fit: cover; transition: transform .4s ease; }
+  &:hover img { transform: scale(1.02); } /* subtle hover */
+  figcaption { padding: 8px 12px; font-size: .875rem; color: #dcdcdc; background: rgba(255,255,255,.04); }
+}
+
+/* optional gallery */
+.about-gallery {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  img {
+    width: 100%; height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  img:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-media { order: -1; } /* image first on mobile; remove if you prefer text first */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-media img, .about-gallery img { transition: none !important; }
+}

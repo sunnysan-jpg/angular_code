@@ -1,1 +1,123 @@
-<p>privacy-policy works!</p>
+<section class="privacy container">
+  <header class="hero">
+    <h1>Privacy Policy</h1>
+    <p class="muted">Last updated: {{ lastUpdated | date:'longDate' }}</p>
+    <p class="intro">
+      At {{ brand }}, we respect your privacy. This policy explains what data we collect,
+      how we use it, and your choices. This is general information, not legal advice.
+    </p>
+  </header>
+
+  <div class="grid">
+    <!-- Main content -->
+    <article class="content">
+      <h2 id="scope">1. Scope</h2>
+      <p>
+        This policy applies to our website, apps, and services related to browsing,
+        placing orders, and customer support.
+      </p>
+
+      <h2 id="data">2. Data We Collect</h2>
+      <ul>
+        <li><strong>Account & Contact</strong>: name, email, phone.</li>
+        <li><strong>Order & Delivery</strong>: cart, address, delivery window, preferences.</li>
+        <li><strong>Payments</strong>: references from your payment provider (we don’t store card details on our servers).</li>
+        <li><strong>Usage</strong>: device info, pages visited, cookies (see Cookies).</li>
+        <li><strong>Support</strong>: messages you send us (email, WhatsApp, contact form).</li>
+      </ul>
+
+      <h2 id="use">3. How We Use Data</h2>
+      <ul>
+        <li>Process orders, deliver products, and provide support.</li>
+        <li>Send service messages (order status, delivery updates).</li>
+        <li>Improve our website, products, and customer experience.</li>
+        <li>Prevent fraud, enforce terms, and comply with law.</li>
+      </ul>
+
+      <h2 id="sharing">4. Sharing</h2>
+      <p>
+        We share data only as needed with delivery partners, payment providers,
+        hosting/analytics vendors, or when required by law. We don’t sell your data.
+      </p>
+
+      <h2 id="legal">5. Legal Basis / Consent</h2>
+      <p>
+        We process your data to perform our contract with you (order fulfilment), based on your consent
+        (e.g., marketing, optional cookies), or for our legitimate interests (security, improvements).
+      </p>
+
+      <h2 id="retention">6. Retention</h2>
+      <p>
+        We keep data only as long as necessary for the purposes above and to meet legal/accounting obligations.
+      </p>
+
+      <h2 id="security">7. Security</h2>
+      <p>
+        We use reasonable technical and organizational safeguards. No method is 100% secure.
+      </p>
+
+      <h2 id="rights">8. Your Rights</h2>
+      <p>
+        You may request access, correction, deletion, or withdrawal of consent where applicable.
+        To exercise these, contact us at <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a>.
+      </p>
+
+      <h2 id="cookies">9. Cookies</h2>
+      <p>
+        Cookies help with sign-in, cart, and analytics. You can disable them in your browser;
+        some features may stop working.
+      </p>
+
+      <h2 id="children">10. Children</h2>
+      <p>
+        Our services aren’t directed to children under 18. If we learn we’ve collected such data,
+        we’ll delete it.
+      </p>
+
+      <h2 id="intl">11. International Transfers</h2>
+      <p>
+        If data is processed outside your country, we use appropriate safeguards consistent with applicable law.
+      </p>
+
+      <h2 id="changes">12. Changes to This Policy</h2>
+      <p>
+        We may update this policy. Material changes will be highlighted on this page with a new “Last updated” date.
+      </p>
+
+      <h2 id="contact">13. Contact & Grievance</h2>
+      <p>
+     Phone: <a [href]="telHref">{{ phone }}</a><br>
+Email: <a [href]="mailHref">{{ supportEmail }}</a><br>
+
+        Address: Bangalore, Karnataka, India
+      </p>
+
+<a class="to-top" href="#" (click)="scrollTop($event)" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i> Back to top
+</a>
+
+    </article>
+
+    <!-- Side TOC -->
+    <aside class="toc">
+      <nav aria-label="On this page">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#scope">Scope</a></li>
+          <li><a href="#data">Data We Collect</a></li>
+          <li><a href="#use">How We Use Data</a></li>
+          <li><a href="#sharing">Sharing</a></li>
+          <li><a href="#legal">Legal Basis</a></li>
+          <li><a href="#retention">Retention</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#rights">Your Rights</a></li>
+          <li><a href="#cookies">Cookies</a></li>
+          <li><a href="#children">Children</a></li>
+          <li><a href="#intl">International</a></li>
+          <li><a href="#changes">Changes</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+</section>
