@@ -66,6 +66,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { AboutUsComponent } from './footer-about/about-us/about-us.component';
 import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
 import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
+import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ContactDetailComponent } from './footer-about/contact-detail/contact-de
     AboutUsComponent,
     PrivacyPolicyComponent,
     ContactDetailComponent,
+    ChatBotComponent,
     // RegisterComponent,
     // AdminDashboardComponent,
     // OrdersComponent

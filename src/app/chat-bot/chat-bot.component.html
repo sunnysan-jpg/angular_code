@@ -1,0 +1,37 @@
+<!-- Floating button -->
+<button class="chat-fab" (click)="toggle()" aria-label="Open chat">
+  <i class="fas fa-message"></i>
+</button>
+
+<!-- Panel -->
+<div class="chat-panel" *ngIf="open">
+  <header class="chat-header">
+    <strong>Need help?</strong>
+    <button class="close" (click)="toggle()" aria-label="Close chat">×</button>
+  </header>
+
+  <div class="chat-body" #scrollArea>
+    <div *ngFor="let m of messages" [class.me]="m.role==='user'" class="msg">
+      <div class="bubble">
+        <span>{{ m.content }}</span>
+      </div>
+    </div>
+
+    <div class="typing" *ngIf="sending">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+
+  <div class="chat-suggestions" *ngIf="suggestions?.length">
+    <button *ngFor="let s of suggestions" (click)="pick(s)">{{ s }}</button>
+  </div>
+
+  <form class="chat-input" (ngSubmit)="send()">
+    <input [(ngModel)]="input" name="message" placeholder="Type your question…" autocomplete="off" />
+    <button type="submit" [disabled]="sending"><i class="fas fa-paper-plane"></i></button>
+  </form>
+
+  <footer class="chat-foot">
+    <small>Min order ₹300 • <a routerLink="/privacy">Privacy</a> • <a routerLink="/contact">Contact</a></small>
+  </footer>
+</div>
