@@ -8,4 +8,4 @@ import { LoaderService } from '../services/loader.service';
 })
 export class SpinnerComponent {
   constructor(public loaderService:LoaderService){}
-}
+}   
