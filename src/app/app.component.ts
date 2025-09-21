@@ -11,6 +11,8 @@ import { CartService } from './services/cart.service';
       <router-outlet></router-outlet>
     </main>
       <app-footer></app-footer>
+      <app-chat-bot></app-chat-bot>
+
   `,
   styles: [`
     .main-content {
