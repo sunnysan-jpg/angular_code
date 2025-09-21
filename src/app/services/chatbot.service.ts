@@ -6,7 +6,7 @@ export interface ChatTurn { role: 'user'|'assistant'; content: string; }
 @Injectable({
   providedIn: 'root'
 })
-export class ChatbotService {
+export class ChatbotService {   
 
   private api = 'https://ecommerce-mushroom.onrender.com/api/chat-bot/chat';
   private sidKey = 'dunnyyadav';
