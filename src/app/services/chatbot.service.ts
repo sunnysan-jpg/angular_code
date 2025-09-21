@@ -8,7 +8,7 @@ export interface ChatTurn { role: 'user'|'assistant'; content: string; }
 })
 export class ChatbotService {
 
-  private api = 'http://localhost:3000/api/chat-bot/chat';
+  private api = 'https://ecommerce-mushroom.onrender.com/api/chat-bot/chat';
   private sidKey = 'dunnyyadav';
 
   constructor(private http: HttpClient) {}
