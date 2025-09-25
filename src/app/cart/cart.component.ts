@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cartitem } from '../models/carditem.model';
 import { CartService } from '../services/cart.service';
-
+  
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html'
