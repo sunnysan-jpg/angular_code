@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
+import { IdleService } from '../services/idle.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private idle: IdleService
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.idle.stopWatching();
     this.router.navigate(['/products']);
   }
 

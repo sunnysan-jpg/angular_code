@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
+import { IdleService } from '../services/idle.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private idle: IdleService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -31,6 +33,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe(
         () => {
           this.snackBar.open('Login successful!', 'Close', { duration: 3000 });
+           this.idle.startWatching();
           this.router.navigate(['/products']);
         },
         error => {
@@ -43,5 +46,6 @@ export class LoginComponent {
 
       googleLogin() {
     this.authService.loginWithGoogle();
+     this.idle.startWatching();
   }
 }

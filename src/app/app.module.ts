@@ -67,6 +67,7 @@ import { AboutUsComponent } from './footer-about/about-us/about-us.component';
 import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
 import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import { ChatBotComponent } from './chat-bot/chat-bot.component';
     MatSelectModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+     NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
         {

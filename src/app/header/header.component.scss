@@ -63,3 +63,68 @@
   .desktop-only { display: flex !important; }
   .mobile-only { display: none !important; }
 }
+
+
+/* For extra small screens like iPhone 12 Pro (390px and below) */
+@media (max-width: 392px) {
+  .announcement-bar {
+    padding: 6px 8px; // thoda compact
+    .announcement-text {
+      font-size: 12px;  // force smaller font
+    }
+  }
+
+  .header {
+    .logo {
+      font-size: 1.2rem;  // reduce logo size
+    }
+
+    .nav-icons {
+      gap: 1px;  // no gap between icons
+      margin-top: 12px
+      button {
+        font-size: 18px; // smaller icons if needed
+        padding: 4px; 
+        margin-right: -13px;   // reduce padding
+      }
+    }
+  }
+
+  /* Agar kahin horizontal scroll aa raha hai */
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+
+
+
+@media (max-width: 362px) {
+  .announcement-bar {
+    padding: 6px 8px; // thoda compact
+    .announcement-text {
+      font-size: 12px;  // force smaller font
+    }
+  }
+
+  .header {
+    .logo {
+      font-size: 1.2rem;  // reduce logo size
+    }
+
+    .nav-icons {
+      gap: 1px;  // no gap between icons
+      margin-top: 12px
+      button {
+        font-size: 18px; // smaller icons if needed
+        padding: 4px; 
+        margin-right: -13px;   // reduce padding
+      }
+    }
+  }
+
+  /* Agar kahin horizontal scroll aa raha hai */
+  html, body {
+    overflow-x: hidden;
+  }
+}

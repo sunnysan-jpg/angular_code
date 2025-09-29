@@ -37,3 +37,48 @@ $mushroom-front-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* For iPhone 12 Pro width (390px) */
+@media (max-width: 392px) {
+  .announcement-bar {
+    padding: 6px 8px; // thoda compact
+    .announcement-text {
+      font-size: 12px;  // force smaller font
+    }
+  }
+  
+  .header {
+    .logo {
+      font-size: 1.2rem;  // reduce logo size
+    }
+
+    .nav-icons {
+      gap: 1px;  // no gap between icons
+      margin-top: 12px
+      button {
+        font-size: 18px; // smaller icons if needed
+        padding: 4px; 
+        margin-right: -13px;   // reduce padding
+      }
+    }
+  }
+
+  /* Agar kahin horizontal scroll aa raha hai */
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+
+
+html, body {
+  overflow-x: hidden;
+}
+
+
+.mat-card {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+

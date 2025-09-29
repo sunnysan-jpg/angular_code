@@ -20,19 +20,15 @@
             "outputPath": "dist/mushroom-front",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css", 
+              "src/styles.scss"
             ],
-    "styles": [
-      "node_modules/bootstrap/dist/css/bootstrap.min.css", 
-      "src/styles.scss"  
-    ],
             "scripts": []
           },
           "configurations": {
@@ -43,14 +39,21 @@
                   "maximumWarning": "500kb",
                   "maximumError": "1mb"
                 },
-{
-  "type": "anyComponentStyle",
-  "maximumWarning": "10kb",
-  "maximumError": "15kb"
-}
-
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb",
+                  "maximumError": "15kb"
+                }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             },
             "development": {
               "buildOptimizer": false,
@@ -84,19 +87,13 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-  "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }

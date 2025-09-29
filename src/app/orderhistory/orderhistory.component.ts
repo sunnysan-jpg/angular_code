@@ -1,20 +1,9 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-orderhistory',
-//   templateUrl: './orderhistory.component.html',
-//   styleUrls: ['./orderhistory.component.scss']
-// })
-// export class OrderhistoryComponent {
-
-// }
-
-
 
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { OrderService } from '../services/order.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as QRCode from 'qrcode';
 
 interface OrderHistory {
   id: string;
@@ -28,6 +17,7 @@ interface OrderHistory {
   estimatedDelivery?: Date;
   deliveredDate?: Date;
   product_name: string,
+  shippingCharge?: number;
 }
 
 interface OrderItem {
@@ -55,6 +45,11 @@ export class OrderhistoryComponent implements OnInit {
   statusFilter: string = '';
   dateFilter: string = '';
   searchTerm: string = '';
+
+
+    // Invoice configuration
+  invoiceLogoPath = 'https://res.cloudinary.com/dkbc3dfyf/image/upload/v1752938746/samples/cloudinary-icon.png'; // path to logo in src/assets
+  gstPercent = 18;         
   constructor(private orderSerive: OrderService){}
   ngOnInit() {
     this.loadOrderHistory();
@@ -224,10 +219,182 @@ total_amount, 0);
     }
   }
 
-  downloadInvoice(order: OrderHistory) {
-    // Generate and download invoice
-    console.log('Downloading invoice for order:', order.id);
+  // downloadInvoice(order: OrderHistory) {
+  //   // Generate and download invoice
+  //   console.log('Downloading invoice for order:', order.id);
+  // }
+
+    // ---------- Invoice helpers ----------
+  private formatCurrency(n: number): string {
+    return '₹' + Number(n ?? 0).toFixed(2);
   }
+
+  private calcSubtotal(order: OrderHistory): number {
+    if (!order || !order.items) return 0;
+    return order.items.reduce((s, it) => s + ((it.price || 0) * (it.quantity || 1)), 0);
+  }
+
+
+   private async fetchImageDataUrl(url: string): Promise<string | null> {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      return await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (e) {
+      console.warn('Failed to fetch image:', e);
+      return null;
+    }
+  }
+
+
+
+
+
+async downloadInvoice(order: OrderHistory) {
+  if (!order) return;
+
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 40;
+  const startY = 40;
+
+  // 1️⃣ Generate QR code for the order
+  const orderUrl = `Thank you Visit again`;
+  let qrDataUrl: string | null = null;
+  try {
+    qrDataUrl = await QRCode.toDataURL(orderUrl, { margin: 1, width: 160 });
+  } catch (e) {
+    console.warn('QR generation failed', e);
+    qrDataUrl = null;
+  }
+
+  // 2️⃣ Load logo
+  const logoDataUrl = await this.fetchImageDataUrl(this.invoiceLogoPath);
+  const logoWidth = 70;
+  const logoHeight = 70;
+  if (logoDataUrl) {
+    try { doc.addImage(logoDataUrl, 'PNG', margin, startY, logoWidth, logoHeight); }
+    catch (e) { console.warn('addImage logo failed', e); }
+  }
+
+  // 3️⃣ Place QR top-right
+  const qrSize = 80;
+  if (qrDataUrl) {
+    try { doc.addImage(qrDataUrl, 'PNG', pageWidth - margin - qrSize, startY, qrSize, qrSize); }
+    catch (e) { console.warn('addImage QR failed', e); }
+  }
+
+  // 4️⃣ Header text
+  const headerX = margin + (logoDataUrl ? logoWidth + 10 : 0);
+  doc.setFontSize(18);
+  doc.setTextColor('#b86a2c');
+  doc.text('Mushroom Store', headerX, startY + 22);
+
+  doc.setFontSize(10);
+  doc.setTextColor('#333');
+  doc.text('Invoice', pageWidth - margin, startY + 22, { align: 'right' });
+
+  // 5️⃣ Order meta
+  let y = startY + (logoDataUrl ? logoHeight : 40) + 12;
+  doc.setFontSize(10);
+  doc.text(`Order ID: ${order.id}`, margin, y);
+  doc.text(`Date: ${new Date(order.orderDate).toLocaleString()}`, pageWidth - margin, y, { align: 'right' });
+  y += 18;
+  doc.text(`Payment: ${order.paymentMethod || '—'}`, margin, y);
+  doc.text(`Status: ${this.getStatusText(order.status)}`, pageWidth - margin, y, { align: 'right' });
+  y += 22;
+
+  // 6️⃣ Shipping info
+  doc.setFontSize(11);
+  doc.text('Ship To:', margin, y);
+  const shipping = order.shipping_address || '—';
+  doc.setFontSize(10);
+  const shippingLines = doc.splitTextToSize(shipping, pageWidth - margin * 2 - 100);
+  doc.text(shippingLines, margin + 60, y);
+  y += shippingLines.length * 12 + 8;
+
+  // 7️⃣ Items table using autoTable
+  const tableColumns = ['Item', 'Qty', 'Price', 'Subtotal'];
+  const tableBody = (order.items || []).map(i => {
+    const name = String(i.product_name || i.productName || 'Item');
+    const qty = Number(i.quantity) || 0;
+    const price = Number(i.price) || 0;
+    const subtotal = price * qty;
+    // ensure plain strings for PDF (no locale formatting)
+    return [
+      name,
+      String(qty),
+      Number(price).toFixed(2),
+      Number(subtotal).toFixed(2)
+    ];
+  });
+
+  autoTable(doc, {
+    head: [tableColumns],
+    body: tableBody,
+    startY: y,
+    styles: { fontSize: 10, cellPadding: 6 },
+    headStyles: { fillColor: [184, 106, 44], textColor: 255 },
+    margin: { left: margin, right: margin },
+    theme: 'grid',
+  });
+
+  const finalY = (doc as any).lastAutoTable ? (doc as any).lastAutoTable.finalY + 10 : y + 100;
+
+  // 8️⃣ Amounts summary
+  const subtotal = this.calcSubtotal(order);
+  const gstAmount = +(subtotal * (this.gstPercent / 100));
+  const shippingCharge = (order.shippingCharge || 0);
+  const total = +(subtotal + gstAmount + shippingCharge);
+
+  const summaryX = pageWidth - margin - 220;
+  doc.setFontSize(11);
+  doc.setTextColor('#333');
+  doc.setFont('helvetica', 'normal');
+  doc.text('Subtotal:', summaryX, finalY + 18);
+  doc.text(Number(subtotal).toFixed(2), summaryX + 150, finalY + 18, { align: 'right' });
+
+  doc.text(`GST (${this.gstPercent}%):`, summaryX, finalY + 36);
+  doc.text(Number(gstAmount).toFixed(2), summaryX + 150, finalY + 36, { align: 'right' });
+
+  if (shippingCharge) {
+   doc.text('Shipping:', summaryX, finalY + 54);
+    doc.text(Number(shippingCharge).toFixed(2), summaryX + 150, finalY + 54, { align: 'right' });
+  }
+
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Total:', summaryX, finalY + 80);
+  doc.text(Number(total).toFixed(2), summaryX + 150, finalY + 80, { align: 'right' });
+
+  // 9️⃣ Footer QR
+  if (qrDataUrl) {
+    try {
+      const footerQrSize = 60;
+      const footerY = doc.internal.pageSize.getHeight() - 120;
+      doc.addImage(qrDataUrl, 'PNG', margin, footerY, footerQrSize, footerQrSize);
+      doc.setFontSize(9);
+      doc.text('Scan to view order', margin + footerQrSize + 8, footerY + footerQrSize / 2 + 4);
+    } catch (e) { /* ignore */ }
+  }
+
+  // 10️⃣ Footer note
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor('#666');
+  const footer = 'Thank you for ordering from Mushroom Store. For support, visit /contact or email 03sunnyyadav@gmail.com';
+  doc.text(doc.splitTextToSize(footer, pageWidth - margin * 2), margin, doc.internal.pageSize.getHeight() - 60);
+
+  // 11️⃣ Save PDF
+  const filename = `Invoice-${order.id || 'order'}-${(new Date()).toISOString().slice(0,10)}.pdf`;
+  doc.save(filename);
+}
 
   goToShop() {
     // Navigate to shop page
