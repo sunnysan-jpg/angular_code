@@ -271,7 +271,7 @@ async downloadInvoice(order: OrderHistory) {
   } catch (e) {
     console.warn('QR generation failed', e);
     qrDataUrl = null;
-  }
+  }  
 
   // 2️⃣ Load logo
   const logoDataUrl = await this.fetchImageDataUrl(this.invoiceLogoPath);
