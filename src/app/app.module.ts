@@ -63,11 +63,11 @@ import { OrderhistoryComponent } from './orderhistory/orderhistory.component';
 import { GoogleauthsuccessComponent } from './googleauthsuccess/googleauthsuccess.component';
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { AboutUsComponent } from './footer-about/about-us/about-us.component';
 import { PrivacyPolicyComponent } from './footer-about/privacy-policy/privacy-policy.component';
 import { ContactDetailComponent } from './footer-about/contact-detail/contact-detail.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 @NgModule({
   declarations: [
@@ -118,12 +118,7 @@ import { ChatBotComponent } from './chat-bot/chat-bot.component';
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+     NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
         {
