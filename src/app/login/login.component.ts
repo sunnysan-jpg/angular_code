@@ -47,5 +47,5 @@ export class LoginComponent {
       googleLogin() {
     this.authService.loginWithGoogle();
      this.idle.startWatching();
-  }
+  }  
 }
