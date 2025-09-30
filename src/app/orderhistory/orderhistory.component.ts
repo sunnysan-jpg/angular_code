@@ -390,7 +390,51 @@ async downloadInvoice(order: OrderHistory) {
 
   // 11️⃣ Save PDF
   const filename = `Invoice-${order.id || 'order'}-${(new Date()).toISOString().slice(0,10)}.pdf`;
-  doc.save(filename);
+  // doc.save(filename);
+  await this.savePdfCrossPlatform(doc, filename);
+  
+}
+
+
+private isIOS(): boolean {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+}
+
+private async savePdfCrossPlatform(doc: any, filename: string) {
+  try {
+    // create blob from jsPDF
+    const blob: Blob = doc.output('blob');
+
+    // small safety: if blob is very large, consider streaming or server-side generation
+    const url = URL.createObjectURL(blob);
+
+    if (this.isIOS()) {
+      // iOS: download attribute ignored — open in new tab/window
+      window.open(url, '_blank');
+      // revoke after a delay
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+    } else {
+      // Desktop & Android: use anchor download
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      // append to DOM to make it work on some browsers
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      // revoke after short delay
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+    }
+  } catch (err) {
+    console.warn('savePdfCrossPlatform failed, falling back to doc.save()', err);
+    try {
+      // final fallback
+      doc.save(filename);
+    } catch (e) {
+      console.error('All PDF save attempts failed', e);
+      alert('Unable to download invoice on this device/browser. Try opening in desktop or update your browser.');
+    }
+  }
 }
 
   goToShop() {
