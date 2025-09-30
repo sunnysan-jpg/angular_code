@@ -8,7 +8,7 @@ interface OrderHistory {
   id: string;
   created_at: Date;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  items: OrderItem[];
+  items: OrderItem[];  
   total_amount: number;
   shipping_address: string;
   paymentMethod: string;
