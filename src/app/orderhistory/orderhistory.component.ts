@@ -6,7 +6,7 @@ import * as QRCode from 'qrcode';
 
 interface OrderHistory {
   id: string;
-  orderDate: Date;
+  created_at: Date;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   items: OrderItem[];
   total_amount: number;
@@ -145,32 +145,33 @@ this.orderSerive.getOrders().subscribe(orderResponse => {
       })
     };
   });
-
+  this.orders = this.filteredOrders
   console.log("Transformed Orders:", this.filteredOrders);
 });
 
   }
 
-  filterOrders() {
-    this.filteredOrders = this.orders.filter(order => {
-      const matchesStatus = !this.statusFilter || order.status === this.statusFilter;
-      
-      const matchesDate = !this.dateFilter || this.isWithinDateRange(order.orderDate, parseInt(this.dateFilter));
-      
-      const matchesSearch = !this.searchTerm || 
-        order.id.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        order.items.some(item => 
-          item.productName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.mushroomType.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-      
-      return matchesStatus && matchesDate && matchesSearch;
-    });
-  }
+filterOrders() {
+  this.filteredOrders = this.orders.filter(order => {
+    const matchesStatus = !this.statusFilter || order.status === this.statusFilter;
+    
+    const matchesDate = !this.dateFilter || this.isWithinDateRange(order.created_at, parseInt(this.dateFilter));
+    
+    const matchesSearch = !this.searchTerm || 
+      order.id.toString().toLowerCase().includes(this.searchTerm.toLowerCase()) || // ✅ fixed here
+      order.items.some(item => 
+        item.product_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    
+    return matchesStatus && matchesDate && matchesSearch;
+  });
+}
+
 
   isWithinDateRange(orderDate: Date, days: number): boolean {
+    const ordereDates = new Date(orderDate)
     const today = new Date();
-    const diffTime = Math.abs(today.getTime() - orderDate.getTime());
+    const diffTime = Math.abs(today.getTime() - ordereDates.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= days;
   }
@@ -187,10 +188,7 @@ this.orderSerive.getOrders().subscribe(orderResponse => {
   }
 
   getTotalSpent(): number {
-    return this.orders
-      .filter(order => order.status !== 'cancelled')
-      .reduce((total, order) => total + order.
-total_amount, 0);
+    return this.orders.filter(order => order.status !== 'cancelled').reduce((total, order) => total +Number(order.total_amount), 0);
   }
 
   viewOrderDetails(filteredOrders: OrderHistory) {
@@ -303,7 +301,7 @@ async downloadInvoice(order: OrderHistory) {
   let y = startY + (logoDataUrl ? logoHeight : 40) + 12;
   doc.setFontSize(10);
   doc.text(`Order ID: ${order.id}`, margin, y);
-  doc.text(`Date: ${new Date(order.orderDate).toLocaleString()}`, pageWidth - margin, y, { align: 'right' });
+  doc.text(`Date: ${new Date(order.created_at).toLocaleString()}`, pageWidth - margin, y, { align: 'right' });
   y += 18;
   doc.text(`Payment: ${order.paymentMethod || '—'}`, margin, y);
   doc.text(`Status: ${this.getStatusText(order.status)}`, pageWidth - margin, y, { align: 'right' });

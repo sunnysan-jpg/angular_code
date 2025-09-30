@@ -163,7 +163,7 @@
                   <div class="timeline-icon">📝</div>
                   <div class="timeline-content">
                     <h4>Order Placed</h4>
-                    <p>{{ selectedOrder.orderDate | date:'medium' }}</p>
+                    <p>{{ selectedOrder.created_at | date:'medium' }}</p>
                   </div>
                 </div>
                 <div class="timeline-item" [class.active]="isStatusActive('processing')">
@@ -199,7 +199,7 @@
                 </div>
                 <div class="info-item">
                   <label>Order Date:</label>
-                  <span>{{ selectedOrder.orderDate | date:'full' }}</span>
+                  <span>{{ selectedOrder.created_at | date:'full' }}</span>
                 </div>
                 <div class="info-item">
                   <label>Payment Method:</label>
