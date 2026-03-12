@@ -9,7 +9,7 @@ import { IdleService } from '../services/idle.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
-})
+})  
 export class LoginComponent {
   loginForm: FormGroup;
   isLoading = false;
