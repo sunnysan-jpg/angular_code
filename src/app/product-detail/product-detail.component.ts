@@ -57,10 +57,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(): void {
-    if (this.product && this.isLoggedIn) {
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    if (this.product) {
       this.cartService.addToCart(this.product.id, this.quantity).subscribe(
         () => {
-          // Show success message
           alert('Added to cart successfully!');
         },
         error => {
