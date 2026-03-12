@@ -132,21 +132,24 @@ export class OrderhistoryComponent implements OnInit {
     
     // this.filteredOrders = [...this.orders];
 
-// cart-orders.component.ts or wherever you're processing
 this.orderSerive.getOrders().subscribe(orderResponse => {
   this.filteredOrders = orderResponse.map(order => {
     return {
       ...order,
-      items: order.items.map(item => {
-        return {
-          ...item,
-          imageUrls: JSON.parse(item.image_url)  // Convert string to array
-        };
+      items: (order.items || []).map(item => {
+        let imageUrls: string[] = [];
+        if (item.image_url) {
+          if (Array.isArray(item.image_url)) {
+            imageUrls = item.image_url;
+          } else {
+            try { imageUrls = JSON.parse(item.image_url); } catch { imageUrls = []; }
+          }
+        }
+        return { ...item, imageUrls };
       })
     };
   });
-  this.orders = this.filteredOrders
-  console.log("Transformed Orders:", this.filteredOrders);
+  this.orders = this.filteredOrders;
 });
 
   }
