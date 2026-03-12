@@ -291,7 +291,7 @@ async downloadInvoice(order: OrderHistory) {
   const headerX = margin + (logoDataUrl ? logoWidth + 10 : 0);
   doc.setFontSize(18);
   doc.setTextColor('#b86a2c');
-  doc.text('Mushroom Store', headerX, startY + 22);
+  doc.text('Makhana Store', headerX, startY + 22);
 
   doc.setFontSize(10);
   doc.setTextColor('#333');
@@ -385,7 +385,7 @@ async downloadInvoice(order: OrderHistory) {
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor('#666');
-  const footer = 'Thank you for ordering from Mushroom Store. For support, visit /contact or email 03sunnyyadav@gmail.com';
+  const footer = 'Thank you for ordering from Makhana Store. For support, visit /contact or email 03sunnyyadav@gmail.com';
   doc.text(doc.splitTextToSize(footer, pageWidth - margin * 2), margin, doc.internal.pageSize.getHeight() - 60);
 
   // 11️⃣ Save PDF

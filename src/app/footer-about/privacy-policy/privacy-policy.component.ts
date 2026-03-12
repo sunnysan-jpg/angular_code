@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./privacy-policy.component.scss']
 })
 export class PrivacyPolicyComponent {
-  brand = 'Mushroom Store';                 // change if needed
-  supportEmail = 'info@mushroomstore.com';  // change if needed
+  brand = 'Makhana Store';
+  supportEmail = '03sunnyyadav@gmail.com';
   phone = '+91 7039683801';
   lastUpdated = new Date();  
 

@@ -147,7 +147,7 @@ onSubmit(): void {
         key: 'rzp_test_0O3CVYn3hWnPd1',
         amount: res.amount,
         currency: 'INR',
-        name: 'Mushroom Store',
+        name: 'Makhana Store',
         description: 'Order Payment',
         order_id: res.id,
         handler: (response: any) => {
@@ -236,7 +236,7 @@ submitOrder(orderData: any): void {
 //         key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay key
 //         amount: res.order.amount,
 //         currency: res.order.currency,
-//         name: 'Mushroom Store',
+//         name: 'Makhana Store',
 //         description: 'Order Payment',
 //         order_id: res.order.id,
 //         handler: (response: any) => {

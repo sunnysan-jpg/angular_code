@@ -1,84 +1,136 @@
 
 // Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$mushroom-front-primary: mat.define-palette(mat.$indigo-palette);
-$mushroom-front-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// ── Green + Amber theme ───────────────────────────────────────────────────────
+$ms-primary: mat.define-palette(mat.$green-palette, 800, 600, 900);
+$ms-accent:  mat.define-palette(mat.$amber-palette, 600, 400, 800);
+$ms-warn:    mat.define-palette(mat.$red-palette);
 
-// The warn palette is optional (defaults to red).
-$mushroom-front-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$mushroom-front-theme: mat.define-light-theme((
+$ms-theme: mat.define-light-theme((
   color: (
-    primary: $mushroom-front-primary,
-    accent: $mushroom-front-accent,
-    warn: $mushroom-front-warn,
+    primary: $ms-primary,
+    accent:  $ms-accent,
+    warn:    $ms-warn,
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($mushroom-front-theme);
+@include mat.all-component-themes($ms-theme);
 
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-/* For iPhone 12 Pro width (390px) */
-@media (max-width: 392px) {
-  .announcement-bar {
-    padding: 6px 8px; // thoda compact
-    .announcement-text {
-      font-size: 12px;  // force smaller font
-    }
-  }
-  
-  .header {
-    .logo {
-      font-size: 1.2rem;  // reduce logo size
-    }
-
-    .nav-icons {
-      gap: 1px;  // no gap between icons
-      margin-top: 12px
-      button {
-        font-size: 18px; // smaller icons if needed
-        padding: 4px; 
-        margin-right: -13px;   // reduce padding
-      }
-    }
-  }
-
-  /* Agar kahin horizontal scroll aa raha hai */
-  html, body {
-    overflow-x: hidden;
-  }
+// ── CSS Custom Properties ─────────────────────────────────────────────────────
+:root {
+  --ms-primary:     #2d6a4f;
+  --ms-primary-lt:  #40916c;
+  --ms-primary-dk:  #1b4332;
+  --ms-accent:      #e9c46a;
+  --ms-accent-dk:   #d4a82a;
+  --ms-bg:          #fefae0;
+  --ms-surface:     #ffffff;
+  --ms-text:        #1a1a2e;
+  --ms-text-muted:  #6b7280;
+  --ms-border:      #e5e7eb;
+  --ms-success:     #27ae60;
+  --ms-danger:      #e63946;
+  --ms-radius:      12px;
+  --ms-shadow:      0 4px 20px rgba(0,0,0,.10);
+  --ms-shadow-lg:   0 10px 40px rgba(0,0,0,.15);
+  --ms-transition:  .25s ease;
 }
 
+// ── Base Reset ────────────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
 
-
-html, body {
-  overflow-x: hidden;
+html { scroll-behavior: smooth; }
+html, body { height: 100%; overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--ms-bg);
+  color: var(--ms-text);
+  -webkit-font-smoothing: antialiased;
 }
 
+::selection { background: var(--ms-accent); color: var(--ms-text); }
+
+// ── Global Button Utilities ───────────────────────────────────────────────────
+.ms-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--ms-primary);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--ms-transition), transform var(--ms-transition), box-shadow var(--ms-transition);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--ms-primary-lt);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(45,106,79,.35);
+  }
+  &:active { transform: translateY(0); }
+  &[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+}
+
+.ms-btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--ms-accent);
+  color: var(--ms-text);
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--ms-transition), transform var(--ms-transition), box-shadow var(--ms-transition);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--ms-accent-dk);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(233,196,106,.45);
+  }
+  &[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+}
+
+// ── Angular Material Overrides ────────────────────────────────────────────────
+.mat-raised-button.mat-primary,
+.mat-flat-button.mat-primary {
+  background-color: var(--ms-primary) !important;
+  border-radius: 50px !important;
+  padding: 8px 24px !important;
+  font-weight: 600 !important;
+  letter-spacing: .3px !important;
+
+  &:hover {
+    background-color: var(--ms-primary-lt) !important;
+    box-shadow: 0 6px 20px rgba(45,106,79,.35) !important;
+  }
+}
 
 .mat-card {
   max-width: 100%;
   box-sizing: border-box;
+  border-radius: var(--ms-radius) !important;
 }
 
-
-
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 392px) {
+  .announcement-bar {
+    padding: 6px 8px;
+    .announcement-text { font-size: 12px; }
+  }
+  .header .logo { font-size: 1.2rem; }
+  .header .nav-icons { gap: 1px; margin-top: 12px; }
+}

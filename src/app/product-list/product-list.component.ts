@@ -68,6 +68,10 @@ this.productService.getProducts(filters).subscribe(products => {
     this.loadProducts();
   }
 
+  scrollToProducts() {
+    document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   addToCart(product: Product) {
     if (!this.isAuthenticated) {
       this.snackBar.open('Please login to add items to cart', 'Close', { duration: 3000 });

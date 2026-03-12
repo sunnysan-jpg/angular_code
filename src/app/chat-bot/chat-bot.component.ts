@@ -14,7 +14,7 @@ open = false;
   suggestions: string[] = ['What is the minimum order?', 'Do you deliver to my area?', 'Contact details'];
 
   messages: ChatTurn[] = [
-    { role: 'assistant', content: 'Hi! I’m the Mushroom Store assistant. Ask me about products, delivery, or orders.' }
+    { role: 'assistant', content: "Hi! I'm the Makhana Store assistant. Ask me about products, delivery, or orders." }
   ];
 
   @ViewChild('scrollArea') scrollArea!: ElementRef<HTMLDivElement>;
