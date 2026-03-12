@@ -1,32 +1,174 @@
+.auth-container {
+  display: flex;
+  min-height: calc(100vh - 120px);
+  background: var(--ms-bg);
+}
 
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 80vh;
-      padding: 20px;
-    }
-    
-    .auth-card {
-      width: 100%;
-      max-width: 400px;
-    }
-    
-    .full-width {
-      width: 100%;
-      margin-bottom: 15px;
-    }
-    
-    mat-card-actions {
-      text-align: center;
-    }
-    
-    a {
-      color: #3f51b5;
-      text-decoration: none;
-    }
+// ── Left Branding Panel ───────────────────────────────────────────────────────
+.auth-brand {
+  flex: 0 0 42%;
+  background: linear-gradient(160deg, var(--ms-primary-dk) 0%, var(--ms-primary) 55%, var(--ms-primary-lt) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 40px;
+  text-align: center;
+  color: #fff;
 
+  .brand-logo { font-size: 3.5rem; margin-bottom: 16px; }
 
-    .matbtn{
-      padding: 9px;
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    font-size: 1.05rem;
+    opacity: .85;
+    margin: 0 0 32px;
+    max-width: 280px;
+    line-height: 1.6;
+  }
+
+  .brand-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    span {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: .82rem;
+      font-weight: 600;
     }
+  }
+}
+
+// ── Right Form Panel ──────────────────────────────────────────────────────────
+.auth-form-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 32px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--ms-surface);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  padding: 40px 36px;
+  border: 1px solid var(--ms-border);
+
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--ms-text);
+    margin: 0 0 4px;
+  }
+
+  .subtitle {
+    color: var(--ms-text-muted);
+    margin: 0 0 28px;
+    font-size: .95rem;
+  }
+}
+
+// ── Form Fields ───────────────────────────────────────────────────────────────
+.full-width {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+// ── Login Button ──────────────────────────────────────────────────────────────
+.login-btn {
+  width: 100%;
+  padding: 14px !important;
+  border-radius: 50px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  background: var(--ms-primary) !important;
+  color: #fff !important;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  letter-spacing: .3px;
+
+  &:hover:not(:disabled) {
+    background: var(--ms-primary-lt) !important;
+    box-shadow: 0 8px 24px rgba(45,106,79,.35) !important;
+    transform: translateY(-1px);
+  }
+  &:disabled { opacity: .55; }
+}
+
+// ── OR Divider ────────────────────────────────────────────────────────────────
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--ms-text-muted);
+  font-size: .85rem;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ms-border);
+  }
+}
+
+// ── Google Button ─────────────────────────────────────────────────────────────
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 2px solid var(--ms-border);
+  border-radius: 50px;
+  background: var(--ms-surface);
+  color: var(--ms-text);
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+
+  i { color: #ea4335; font-size: 1.1rem; }
+
+  &:hover {
+    border-color: #ea4335;
+    box-shadow: 0 4px 16px rgba(234,67,53,.15);
+  }
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 22px;
+  font-size: .92rem;
+  color: var(--ms-text-muted);
+
+  a {
+    color: var(--ms-primary);
+    font-weight: 600;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .auth-brand { display: none; }
+  .auth-form-panel { padding: 32px 16px; align-items: flex-start; padding-top: 40px; }
+  .auth-card { padding: 28px 20px; }
+}

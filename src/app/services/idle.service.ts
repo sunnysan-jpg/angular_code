@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 export class IdleService {
   private activitySub?: Subscription;
   private timeoutSub?: Subscription;
-  private readonly EXPIRY_KEY = 'mushroom_auth_expiry';
+  private readonly EXPIRY_KEY = 'makhana_auth_expiry';
 
   // Idle timeout in milliseconds (30 minutes)
   readonly IDLE_TIMEOUT = 30 * 60 * 1000;

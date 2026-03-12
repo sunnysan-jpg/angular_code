@@ -113,8 +113,8 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   private readonly TOKEN_KEY = 'token';
-  private readonly USER_KEY = 'mushroom_user';
-  private readonly EXPIRY_KEY = 'mushroom_auth_expiry';
+  private readonly USER_KEY = 'makhana_user';
+  private readonly EXPIRY_KEY = 'makhana_auth_expiry';
   private readonly IDLE_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
   constructor(private http: HttpClient, private router: Router) {

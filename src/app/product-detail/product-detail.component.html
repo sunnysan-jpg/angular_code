@@ -1,84 +1,114 @@
-    <div class="container my-5" *ngIf="product">
-      <div class="row">
-     <!-- Main Product Image -->
-<div class="col-md-6 mb-4 text-center">
-  <img [src]="product.selectedImage"
-       class="img-fluid rounded shadow" style="max-height: 400px;" [alt]="product.name">
-  
-  <!-- Thumbnails -->
-  <div class="mt-3 d-flex flex-wrap justify-content-center gap-2">
-    <img *ngFor="let img of product.images"
-         [src]="img"
-         class="img-thumbnail"
-         [ngClass]="{'border-primary border-3': product.selectedImage === img}"
-         style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
-         (click)="product.selectedImage = img">
+<!-- Product Found -->
+<div class="pd-page" *ngIf="product">
+
+  <!-- Breadcrumb -->
+  <div class="pd-breadcrumb">
+    <a routerLink="/products">Products</a>
+    <span class="sep">›</span>
+    <span>{{ product.name }}</span>
   </div>
+
+  <!-- Main Layout -->
+  <div class="pd-layout">
+
+    <!-- Left: Images -->
+    <div class="pd-images">
+      <div class="pd-main-img-wrap">
+        <img [src]="product.selectedImage" [alt]="product.name" class="pd-main-img">
+        <span *ngIf="product.stock_quantity === 0" class="pd-oos-badge">Out of Stock</span>
+      </div>
+      <div class="pd-thumbnails" *ngIf="product.images && product.images.length > 1">
+        <img *ngFor="let img of product.images"
+             [src]="img"
+             [alt]="product.name"
+             class="pd-thumb"
+             [class.active]="product.selectedImage === img"
+             (click)="product.selectedImage = img">
+      </div>
+    </div>
+
+    <!-- Right: Info + Actions -->
+    <div class="pd-info">
+      <p class="pd-category">{{ product.category_name }}</p>
+      <h1 class="pd-title">{{ product.name }}</h1>
+      <div class="pd-price">₹{{ product.price }}</div>
+      <p class="pd-desc">{{ product.description }}</p>
+
+      <!-- Stock -->
+      <div class="pd-stock" [class.in-stock]="product.stock_quantity > 0"
+                             [class.out-stock]="product.stock_quantity === 0">
+        <i class="fas" [class.fa-check-circle]="product.stock_quantity > 0"
+                       [class.fa-times-circle]="product.stock_quantity === 0"></i>
+        {{ product.stock_quantity > 0 ? product.stock_quantity + ' units available' : 'Out of stock' }}
+      </div>
+
+      <!-- Quantity -->
+      <div class="pd-qty-row" *ngIf="isLoggedIn && product.stock_quantity > 0">
+        <span class="pd-qty-label">Quantity</span>
+        <div class="pd-qty-ctrl">
+          <button class="qty-btn" type="button" (click)="decreaseQuantity()">−</button>
+          <input type="number" class="qty-input" [(ngModel)]="quantity"
+                 min="1" [max]="product.stock_quantity">
+          <button class="qty-btn" type="button" (click)="increaseQuantity()">+</button>
+        </div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="pd-ctas">
+        <button class="pd-add-btn"
+                (click)="addToCart()"
+                [disabled]="!isLoggedIn || product.stock_quantity === 0">
+          <i class="fas fa-cart-plus"></i>
+          Add to Cart
+        </button>
+        <button class="pd-back-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
+
+      <!-- Login prompt -->
+      <div class="pd-login-note" *ngIf="!isLoggedIn">
+        <i class="fas fa-info-circle"></i>
+        Please <a routerLink="/login">sign in</a> to add items to cart.
+      </div>
+    </div>
+  </div>
+
+  <!-- Details Section -->
+  <div class="pd-details">
+    <h3 class="pd-details-title">Product Details</h3>
+    <div class="pd-details-grid">
+
+      <div class="pd-detail-card">
+        <div class="pd-detail-icon">📝</div>
+        <h4>Description</h4>
+        <p>{{ product.description }}</p>
+      </div>
+
+      <div class="pd-detail-card">
+        <div class="pd-detail-icon">📦</div>
+        <h4>Storage Instructions</h4>
+        <p>Store in a cool, dry place away from direct sunlight. Keep in an airtight container after opening. Best consumed within 3 months of purchase.</p>
+      </div>
+
+      <div class="pd-detail-card">
+        <div class="pd-detail-icon">💪</div>
+        <h4>Nutritional Benefits</h4>
+        <p>Rich in protein, calcium, and antioxidants. Low in calories, fat-free, and gluten-free. A perfect healthy snack for all ages.</p>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
-        <div class="col-md-6">
-          <h1>{{product.name}}</h1>
-          <p class="text-muted">{{product.category_name}}</p>
-          <h3 class="text-primary">₹{{product.price}}</h3>
-          <p class="lead">{{product.description}}</p>
-          
-          <div class="mb-3">
-            <strong>Stock Available: </strong>
-            <span [class]="product.stock_quantity > 0 ? 'text-success' : 'text-danger'">
-              {{product.stock_quantity > 0 ? product.stock_quantity + ' units' : 'Out of stock'}}
-            </span>
-          </div>
-          
-          <div class="mb-3" *ngIf="isLoggedIn">
-            <label for="quantity" class="form-label">Quantity:</label>
-            <div class="input-group" style="width: 150px;">
-              <button class="btn btn-outline-secondary" type="button" (click)="decreaseQuantity()">-</button>
-              <input type="number" id="quantity" class="form-control text-center" 
-                     [(ngModel)]="quantity" min="1" [max]="product.stock_quantity">
-              <button class="btn btn-outline-secondary" type="button" (click)="increaseQuantity()">+</button>
-            </div>
-          </div>
-          
-          <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary btn-lg" 
-                    (click)="addToCart()" 
-                    [disabled]="!isLoggedIn || product.stock_quantity === 0">
-              <i class="fas fa-cart-plus"></i> Add to Cart
-            </button>
-            <button class="btn btn-outline-secondary btn-lg ms-2" (click)="goBack()">
-              <i class="fas fa-arrow-left"></i> Back to Products
-            </button>
-          </div>
-          
-          <div *ngIf="!isLoggedIn" class="alert alert-info mt-3">
-            <i class="fas fa-info-circle"></i> Please <a routerLink="/login">login</a> to add items to cart.
-          </div>
-        </div>
-      </div>
-      
-      <div class="row mt-5">
-        <div class="col-12">
-          <h3>Product Details</h3>
-          <div class="card">
-            <div class="card-body">
-              <h5>Description</h5>
-              <p>{{product.description}}</p>
-              
-              <h5>Storage Instructions</h5>
-              <p>Store in refrigerator at 35-40°F. Use within 7-10 days of purchase for best quality.</p>
-              
-              <h5>Nutritional Benefits</h5>
-              <p>Rich in protein, vitamins, and minerals. Low in calories and fat-free.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="container my-5" *ngIf="!product && !loading">
-      <div class="text-center">
-        <h2>Product Not Found</h2>
-        <p>The product you're looking for doesn't exist.</p>
-        <button class="btn btn-primary" routerLink="/products">Back to Products</button>
-      </div>
-    </div>
+<!-- Product Not Found -->
+<div class="pd-not-found" *ngIf="!product && !loading">
+  <div class="pd-nf-icon">🌿</div>
+  <h2>Product Not Found</h2>
+  <p>The product you're looking for doesn't exist or has been removed.</p>
+  <button class="pd-add-btn" routerLink="/products">
+    <i class="fas fa-arrow-left"></i> Browse Products
+  </button>
+</div>
