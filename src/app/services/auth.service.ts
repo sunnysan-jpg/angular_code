@@ -183,6 +183,10 @@ export class AuthService {
     return user?.role === 'admin';
   }
 
+  getCurrentUser() {
+    return this.currentUserSubject.value;
+  }
+
   // Auto-login: restore token & user from localStorage and check token optional expiry (JWT)
   autoLogin(): boolean {
     const token = this.getToken();

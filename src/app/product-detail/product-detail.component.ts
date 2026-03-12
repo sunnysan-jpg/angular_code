@@ -31,17 +31,22 @@ export class ProductDetailComponent implements OnInit {
   }
 
   loadProduct(id: number): void {
-
-  this.productService.getProduct(id).subscribe(product => {
-    const images = JSON.parse(product.image_url);
-    this.product = {
-      ...product,
-      images,
-      selectedImage: images[0]  // show first image by default
-    };
-    this.loading = false;
-  });
-  console.log("this",this.product)
+    this.productService.getProduct(id).subscribe(product => {
+      let images: string[] = [];
+      if (product.image_url) {
+        if (Array.isArray(product.image_url)) {
+          images = product.image_url;
+        } else {
+          try { images = JSON.parse(product.image_url); } catch { images = []; }
+        }
+      }
+      this.product = {
+        ...product,
+        images,
+        selectedImage: images[0] || ''
+      };
+      this.loading = false;
+    });
   }
 
   increaseQuantity(): void {

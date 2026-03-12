@@ -18,6 +18,7 @@ import { Cartitem } from '../models/carditem.model';
 import { CartService } from '../services/cart.service';
 import { OrderService } from '../services/order.service';
 import { PaymentService } from '../services/payment.service';
+import { AuthService } from '../services/auth.service';
 
 interface PaymentDetails {
   method: 'card' | 'upi' | 'cod'; // 🔁 add cod
@@ -58,7 +59,8 @@ export class CheckoutComponent implements OnInit {
     private cartService: CartService,
     private orderService: OrderService,
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
 this.checkoutForm = this.fb.group({
   firstName: ['', Validators.required],
@@ -162,8 +164,8 @@ onSubmit(): void {
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
-          email: '03sunnyyadav@gmail.com',
-          contact: '+91 7039683801'
+          email: this.authService.getCurrentUser()?.email || '',
+          contact: this.authService.getCurrentUser()?.phone || ''
         },
         method: {
           upi: true

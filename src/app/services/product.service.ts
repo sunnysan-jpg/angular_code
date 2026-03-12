@@ -34,12 +34,10 @@ export class ProductService {
         }
       });
     }
-    console.log('sunny',this.apiUrl)
     return this.http.get<Product[]>(this.apiUrl, { params });
   }
 
   getProduct(id: number): Observable<Product> {
-    console.log('suanf',this.apiUrl)
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
