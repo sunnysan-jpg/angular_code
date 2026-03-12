@@ -207,7 +207,7 @@ export class AuthService {
 
   // google login redirection (existing)
   loginWithGoogle() {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+    window.location.href = 'https://ecommerce-mushroom.onrender.com/api/auth/google';
   }
 
   handleGoogleSuccess(token: string) {
