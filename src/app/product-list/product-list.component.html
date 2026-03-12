@@ -46,10 +46,12 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-button [routerLink]="['/products', product.id]">View</button>
-        <button mat-raised-button color="primary"
+        <a class="card-btn card-btn-view" [routerLink]="['/products', product.id]">
+          <i class="fas fa-eye"></i> View
+        </a>
+        <button class="card-btn card-btn-cart"
                 (click)="addToCart(product)"
-                [disabled]="!isAuthenticated || product.stock_quantity === 0">
+                [disabled]="product.stock_quantity === 0">
           <i class="fas fa-cart-plus"></i> Add to Cart
         </button>
       </mat-card-actions>

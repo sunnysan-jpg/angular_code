@@ -162,19 +162,55 @@ mat-card-actions {
   padding: 10px 16px 16px !important;
   display: flex;
   gap: 8px;
+}
 
-  button {
-    border-radius: 50px !important;
-    font-weight: 600 !important;
-    font-size: .88rem !important;
-    padding: 6px 18px !important;
-    flex: 1;
+.card-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: transform .18s, box-shadow .18s, background .18s;
+
+  i { font-size: .85rem; }
+
+  &:hover:not(:disabled) { transform: translateY(-2px); }
+}
+
+.card-btn-view {
+  background: transparent;
+  color: var(--ms-primary);
+  border: 2px solid var(--ms-primary);
+
+  &:hover {
+    background: var(--ms-primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(45,106,79,.3);
+  }
+}
+
+.card-btn-cart {
+  background: var(--ms-primary);
+  color: #fff;
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    background: var(--ms-primary-lt);
+    box-shadow: 0 4px 14px rgba(45,106,79,.4);
   }
 
-  .mat-raised-button.mat-primary {
-    background: var(--ms-primary) !important;
-    &:hover { background: var(--ms-primary-lt) !important; }
-    &:disabled { background: #ccc !important; }
+  &:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
   }
 }
 
